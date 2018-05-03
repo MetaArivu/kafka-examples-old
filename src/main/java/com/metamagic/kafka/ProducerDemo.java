@@ -29,9 +29,15 @@ public class ProducerDemo {
         
         for (int key=0; key < 10; key++){
         	String msg = "Hello its  " + Calendar.getInstance().getTimeInMillis()+" "+Integer.toString(key);
-            ProducerRecord<String, String> producerRecord = new ProducerRecord<String, String>("first_topic_1",msg);
-            producer.send(producerRecord);
-            //producer.send(producerRecord,new KafkaDemoCallBack(msg));
+        	Integer pkey;
+        	if((key%2) == 0){
+        		pkey = 1;
+        	}else{
+        		pkey = 0;
+        	}
+            ProducerRecord<String, String> producerRecord = new ProducerRecord<String, String>("first_topic_1",pkey, Integer.toString(key),msg);
+           // producer.send(producerRecord);
+            producer.send(producerRecord,new KafkaDemoCallBack(msg));
         }
 
 
